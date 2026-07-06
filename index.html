@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Диагностика болезней растений</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Определение болезни растения по листу</h1>
+    <form action="/predict" method="post" enctype="multipart/form-data" id="uploadForm">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Загрузить и определить</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        document.getElementById('uploadForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch('/predict', { method: 'POST', body: formData });
+            const data = await response.json();
+            if (data.error) {
+                document.getElementById('result').innerHTML = `<p style="color:red;">${data.error}</p>`;
+                return;
+            }
+            let html = '<h2>Результат:</h2><ul>';
+            data.predictions.forEach(p => {
+                html += `<li>${p[0]} — уверенность ${(p[1]*100).toFixed(2)}%</li>`;
+            });
+            html += '</ul>';
+            document.getElementById('result').innerHTML = html;
+        };
+    </script>
+    <a href="/history">История запросов</a>
+    <a href="/generate_report">Скачать отчёт PDF</a>
+</body>
+</html>

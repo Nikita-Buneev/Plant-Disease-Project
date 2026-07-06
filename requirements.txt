@@ -1,0 +1,15 @@
+torch>=1.10.0
+torchvision>=0.11.0
+flask
+opencv-python
+pillow
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+tqdm
+reportlab
+openpyxl
+albumentations
+transformers

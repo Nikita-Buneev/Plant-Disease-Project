@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>История</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>История запросов</h1>
+    <table border="1">
+        <tr><th>Время</th><th>Изображение</th><th>Предсказания</th></tr>
+        {% for entry in history %}
+        <tr>
+            <td>{{ entry.timestamp }}</td>
+            <td><img src="{{ entry.image }}" width="100"></td>
+            <td>
+                {% for pred in entry.predictions %}
+                    {{ pred[0] }} ({{ (pred[1]*100)|round(2) }}%)<br>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/">Назад</a>
+</body>
+</html>
